@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>npv计算</title>
+</head>
+<body>
+
+<!--  计算净现值  -->
+<center>
+   请输入初始投资金额：<input type="text" name="cstz" id="cstz"><br>
+   请输入贴现率：<input type="text" name="txl" id="txl"><br>
+	<!-- 点击触发事件弹出输入框-->
+    请输入总年份数：<input type="text" name="ysum" id="ysum" onchange="myFunction()"><br>
+    <div id="money">
+
+    </div>
+    <br>
+	<!-- 点击触发事件计算 -->
+    <button onclick="myFunction2()">点击计算</button>
+    <div>
+        <h1 id="result"></h1>
+    </div>
+	
+</center>
+
+<script>
+    function myFunction(){
+        var x=document.getElementById("ysum").value;
+        var div=document.getElementById("money");
+        div.innerHTML="请输入每年的资金流动数额：<br>";
+		<!-- 循环出输入框-->
+        for(var i=1;i<=x;i++){
+			<!-- 用i命名，区别计算-->
+            var name="text"+i;
+			<!-- 创建输入标签对象 -->
+            var ipt=document.createElement("input");
+			<!-- key-value对-->
+            ipt.setAttribute("type","text");
+            ipt.setAttribute("id",name);
+			<!-- 在money的div中插入节点-->
+            div.appendChild(ipt);
+			<!--  插入换行符-->
+            var ipt1=document.createElement("br");
+            div.appendChild(ipt1);
+        }
+    }
+    function myFunction2(){
+        var cstz=document.getElementById("cstz").value;
+        var txl=document.getElementById("txl").value;
+        var ysum=document.getElementById("ysum").value;
+
+        var npv=0;
+		<!-- 年的输入个数就是输入框的个数，就是需要计算的数个数 -->
+        for(var i=1;i<=ysum;i++){
+			<!-- NVP的计算是  每年的现金流   除以  （1+贴现率）的T次方 -->
+            var name="text"+i;
+            var money=document.getElementById(name).value;
+            var temp=Math.pow(parseFloat(txl)+1,i);
+            npv+=money/temp;
+        }
+        npv-=cstz;
+        var lll=document.getElementById("result");
+        lll.innerHTML="该项目的npv为："+npv;
+    }
+</script>
+
+</body>
+</html>
